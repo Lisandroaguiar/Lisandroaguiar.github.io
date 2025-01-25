@@ -4,7 +4,9 @@ class Juego {
     this.enemigo = new Enemigo();
     this.jugador = new Jugador();
     this.estadoContador = 0;
-    this.tiempoMaximo = 300;
+    this.tiempoMaximo = 600;
+    this.tiempoMaximoRonda = 200;
+
     this.ronda = 1;
     this.tiempoRonda = frameCount;
     this.estadoJuego = 'inicio'; // Estado inicial
@@ -105,7 +107,7 @@ class Juego {
         this.reiniciarContador();
       }
 
-      if (frameCount - this.tiempoRonda > this.tiempoMaximo) {
+      if (frameCount - this.tiempoRonda > this.tiempoMaximoRonda) {
         this.nuevaRonda();
       }
       let contador=0;
@@ -115,7 +117,7 @@ class Juego {
         this.estadoJuego = 'perder';
       }
       console.log(this.estadoContador);
-      if (this.ronda >= 10) { // Cambio ejemplo para que gane al alcanzar la ronda 5
+      if (this.ronda >= 15) { // Cambio ejemplo para que gane al alcanzar la ronda 5
         this.estadoJuego = 'ganar';
       }
     }
