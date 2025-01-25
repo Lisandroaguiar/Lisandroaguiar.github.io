@@ -52,6 +52,6 @@ function draw() {
 function mouseClicked() {
   juego.disparar();
 }
-function keyPressed() {
-  juego.keyPressed();
+function mousePressed() {
+  juego.mousePressed();
 }

@@ -29,8 +29,8 @@ class Jugador {
       // Verificar colisión con el cerebro del enemigo
       if (enemigo.seVacio &&
         proyectil.colisiona(
-        enemigo.posX+enemigo.tamCerebro,
-        enemigo.posYcerebro-enemigo.tamCerebro,
+        enemigo.posX+enemigo.tamCerebro/2,
+        enemigo.posYcerebro-enemigo.tamCerebro*1.5,
         enemigo.tamCerebro*1.5
         )
         ) {

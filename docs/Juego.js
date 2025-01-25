@@ -62,7 +62,7 @@ class Juego {
     textAlign(CENTER, CENTER);
     text("¡Has perdido!", width / 2, height / 2 - 50);
     textSize(24);
-    text("Presiona R para reiniciar", width / 2, height / 2 + 50);
+    text("Toque la pantalla para reiniciar", width / 2, height / 2 + 50);
     pop();
   }
 
@@ -74,7 +74,7 @@ class Juego {
     textAlign(CENTER, CENTER);
     text("¡Has ganado!", width / 2, height / 2 - 50);
     textSize(24);
-    text("Presiona R para reiniciar", width / 2, height / 2 + 50);
+    text("Toque la pantalla para reiniciar", width / 2, height / 2 + 50);
     pop();
   }
 
@@ -86,7 +86,7 @@ class Juego {
     text("Creditos:", width / 2, height / 2 - 50);
     text("Juego creado por [Tu Nombre]", width / 2, height / 2);
     textSize(18);
-    text("Presiona ESC para volver al inicio", width / 2, height / 2 + 50);
+    text("Haga click para volver al inicio", width / 2, height / 2 + 50);
   }
 
   actualizar() {
@@ -122,22 +122,22 @@ class Juego {
   }
 
   // Manejo de teclas para cambiar entre estados
-  keyPressed() {
+  mousePressed() {
 
 
-    if (this.estadoJuego === 'perder' && keyCode === 82) { // R para reiniciar
+    if (this.estadoJuego === 'perder' ) { // R para reiniciar
       this.estadoJuego = 'inicio';
       this.ronda = 1;
       this.personas = [new Persona()];
     }
 
-    if (this.estadoJuego === 'ganar' && keyCode === 82) { // R para reiniciar
+    if (this.estadoJuego === 'ganar') { // R para reiniciar
       this.estadoJuego = 'inicio';
       this.ronda = 1;
       this.personas = [new Persona()];
     }
 
-    if (this.estadoJuego === 'creditos' && keyCode === ESCAPE) {
+    if (this.estadoJuego === 'creditos') {
       this.estadoJuego = 'inicio';
     }
   }

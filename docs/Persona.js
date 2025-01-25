@@ -1,7 +1,7 @@
 class Persona {
   constructor() {
     this.posX = random(width,width-200);
-    this.posY = random(300, 400);
+    this.posY = random(350, 450);
     this.posYcerebro = this.posY;
     this.tam = 200; // Tamaño fijo
     this.tamCerebro = 60;
@@ -49,8 +49,8 @@ class Persona {
     if (this.seVacio) {
       image(
         imagenCerebroPersona[indiceCerebro],
-        this.posX+this.tamCerebro,
-        this.posYcerebro - this.tamCerebro*2,
+        this.posX+this.tamCerebro/2,
+        this.posYcerebro - this.tamCerebro*1.5,
         this.tamCerebro,
         this.tamCerebro
         );

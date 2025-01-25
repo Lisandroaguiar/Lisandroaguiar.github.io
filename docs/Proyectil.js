@@ -2,7 +2,7 @@ class Proyectil {
   constructor(posX, posY) {
     this.posX = posX;
     this.posY = posY;
-    this.velocidad = 5;
+    this.velocidad = 7;
     this.tamY = 60;
 this.tamX=20;  
 }
