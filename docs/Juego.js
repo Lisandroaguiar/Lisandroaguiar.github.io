@@ -16,6 +16,8 @@ class Juego {
     this.tiempoTransicion = 0; // Temporizador de transición
     this.tiempoCambioPantalla = 0; // Temporizador para controlar cambios de pantalla
     this.retrasoPantalla = 3000;  // Tiempo mínimo entre pantallas (en milisegundos)
+        this.retrasoPantallaGanar = 5000;  // Tiempo mínimo entre pantallas (en milisegundos)
+
   }
 
   dibujar() {
@@ -166,7 +168,7 @@ dibujarPantallaInicio() {
   }
 
 mousePressed() {
-  if (millis() - this.tiempoCambioPantalla > this.retrasoPantalla) {
+  if (millis() - this.tiempoCambioPantalla > this.retrasoPantallaGanar) {
     if (this.estadoJuego === 'perder' || this.estadoJuego === 'ganar') {
       this.reiniciarJuego();
     }
