@@ -75,7 +75,6 @@ class Juego {
     this.enemigo.dibujar();
     this.jugador.dibujar();
     this.dibujarContadorCircular();
-    text(this.ronda, 50, 50);
     sonidoTransicion.pause();
   }
 
