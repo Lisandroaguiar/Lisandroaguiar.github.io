@@ -9,6 +9,8 @@ let imagenInicio;
 let imagenMegafono;
 let imagenProyectil;
 let imagenFondo;
+let imagenFondoPerder;
+
 function preload() {
   for (i=0; i<5; i++) {
     imagenCerebroContador[i]=loadImage("data/cerebro"+i+".png");
@@ -27,6 +29,11 @@ function preload() {
 imagenInicio=loadImage("data/inicio.png");
 imagenMegafono=loadImage("data/megafono.png");
 imagenProyectil=loadImage("data/proyectil.png");
+imagenBurbuja=loadImage("data/burbuja.png");
+imagenFondoPerder=loadImage("data/Perder.png");
+imagenFondoGanar=loadImage("data/Ganar.png");
+
+
 }
 
 
@@ -51,7 +58,8 @@ function draw() {
 
 function mouseClicked() {
   juego.disparar();
+    juego.mousePressed();
+
 }
 function mousePressed() {
-  juego.mousePressed();
 }
