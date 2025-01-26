@@ -26,6 +26,8 @@ class Enemigo {
     let distancia = dist(this.posX, this.posY, persona.posX, persona.posY);
 
     if (persona.posX < width / 2 && !persona.inmune && distancia < 600) {
+      sonidoRayo.setVolume(0.2);
+      sonidoRayo.play();
       persona.inmune = true;
       persona.seVacio = true;
 

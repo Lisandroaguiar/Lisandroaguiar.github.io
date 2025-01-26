@@ -13,6 +13,8 @@ let imagenFondoPerder;
 let sonidoFondo;
 let sonidoTransicion;
 let sonidoExplosion;
+let sonidoRayo;
+
 function preload() {
   for (i=0; i<5; i++) {
     imagenCerebroContador[i]=loadImage("data/cerebro"+i+".png");
@@ -38,6 +40,8 @@ function preload() {
   sonidoFondo = loadSound('data/fondo.mp3');
   sonidoTransicion = loadSound('data/MuchasBurbujas.mp3');
   sonidoExplosion=loadSound('data/BurbujaExplota.mp3');
+    sonidoRayo=loadSound('data/Rayito.mp3');
+
 }
 
 
