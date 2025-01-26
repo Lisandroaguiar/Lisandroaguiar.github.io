@@ -4,7 +4,7 @@ class Juego {
     this.enemigo = new Enemigo();
     this.jugador = new Jugador();
     this.estadoContador = 0;
-    this.tiempoMaximo = 600;
+    this.tiempoMaximo = 300;
     this.tiempoMaximoRonda = 200;
     this.burbujas = [];
     for (let i = 0; i < 40; i++) { // Crea 40 burbujas
@@ -18,7 +18,7 @@ class Juego {
     this.retrasoPantalla = 3000;  // Tiempo mínimo entre pantallas (en milisegundos)
     this.retrasoPantallaGanar = 5000;  // Tiempo mínimo entre pantallas (en milisegundos)
     this.tiempoInicioJuego = 0;  // Tiempo al comenzar la ronda
-
+this.contadorTransicion=0;
     if (!sonidoFondo.isPlaying()) {
       sonidoFondo.loop();
       sonidoFondo.setVolume(0.2); // Ajusta el volumen
@@ -113,12 +113,13 @@ class Juego {
   }
 
   dibujarPantallaTransicion() {
-    background(0, 150, 255, 10); // Fondo celeste
+    image(imagenTransicion,0, 0, 1961/2, 1080/2); // Fondo celeste
     if (!sonidoTransicion.isPlaying()) {
       sonidoTransicion.play();
       sonidoTransicion.setVolume(0.5); // Ajusta el volumen
     }
     // Dibuja y mueve las burbujas
+this.contadorTransicion++;
     let todasFuera = true; // Bandera para verificar si todas están fuera de la pantalla
     for (let burbuja of this.burbujas) {
       burbuja.dibujar();
@@ -132,9 +133,10 @@ class Juego {
     }
 
     // Si todas las burbujas están fuera de la pantalla, cambia el estado
-    if (todasFuera) {
+    if (todasFuera && this.contadorTransicion>=800) {
       this.estadoJuego = 'jugando'; // Cambia el estado a 'jugando'
       sonidoFondo.loop();
+      this.contadorTransicion=0;
     }
   }
 
@@ -151,7 +153,7 @@ class Juego {
     // Si todas las burbujas están fuera, aumenta el contador
     if (todasFuera) {
       this.estadoContador++;
-      if (this.estadoContador > 4) this.estadoContador = 4;
+      if (this.estadoContador > 5) this.estadoContador = 5;
 
       // Reinicia las burbujas para una nueva ronda (opcional)
       this.burbujas = [];
@@ -187,13 +189,13 @@ class Juego {
       }
 
       // Verificar si ya pasaron 20 segundos
-      if (millis() - this.tiempoInicioJuego >= 34000) { // 20 segundos
+      if (millis() - this.tiempoInicioJuego >= 44000) { // 20 segundos
         this.estadoJuego = 'ganar';
       }
 
 
 
-      if (this.estadoContador >= 4) {
+      if (this.estadoContador >= 5) {
         this.estadoJuego = 'perder';
       }
     }
@@ -255,7 +257,7 @@ class Juego {
   actualizarContador() {
     if (frameCount % (this.tiempoMaximo / 5) === 0) {
       this.estadoContador++;
-      if (this.estadoContador > 4) this.estadoContador = 4;
+      if (this.estadoContador > 5) this.estadoContador = 5;
     }
   }
 
@@ -269,7 +271,7 @@ class Juego {
   if (this.estadoJuego === 'jugando') {
     // Tiempo transcurrido
     let tiempoTranscurrido = millis() - this.tiempoInicioJuego;
-    let tiempoRestante = 34000 - tiempoTranscurrido;
+    let tiempoRestante = 44000 - tiempoTranscurrido;
 
     // Formatear el tiempo restante para que tenga siempre dos dígitos
     let segundosRestantes = nf(round(tiempoRestante / 1000), 2, 0); // El 2 es el número de dígitos, y 0 es la cantidad de decimales

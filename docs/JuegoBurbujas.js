@@ -16,6 +16,7 @@ let sonidoExplosion;
 let sonidoRayo;
 let fuenteSalitreo;
 let imagenBurbujaCronometro;
+let imagenTransicion;
 function preload() {
   // Cargar imágenes
   for (let i = 0; i < 5; i++) {
@@ -44,7 +45,7 @@ imagenBurbujaCronometro=loadImage("data/burbujaCronometro.png");
   sonidoTransicion = loadSound('data/MuchasBurbujas.mp3');
   sonidoExplosion = loadSound('data/BurbujaExplota.mp3');
   sonidoRayo = loadSound('data/Rayito.mp3');
-
+imagenTransicion=loadImage("data/instrucciones.png");
   // Cargar fuente Salitreo
   fuenteSalitreo = loadFont('data/salitreo.ttf');
 }
