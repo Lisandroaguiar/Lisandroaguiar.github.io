@@ -60,6 +60,7 @@ class Persona {
   recibirImpacto() {
     this.impactos++;
     if (this.impactos >= 5) {
+      sonidoExplosion.play();
       this.seVacio = false;
     }
   }

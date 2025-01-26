@@ -16,8 +16,10 @@ class Juego {
     this.tiempoTransicion = 0; // Temporizador de transición
     this.tiempoCambioPantalla = 0; // Temporizador para controlar cambios de pantalla
     this.retrasoPantalla = 3000;  // Tiempo mínimo entre pantallas (en milisegundos)
-        this.retrasoPantallaGanar = 5000;  // Tiempo mínimo entre pantallas (en milisegundos)
-
+    this.retrasoPantallaGanar = 5000;  // Tiempo mínimo entre pantallas (en milisegundos)
+    if (!sonidoFondo.isPlaying()) {
+      sonidoFondo.setVolume(0.2); // Ajusta el volumen
+    }
   }
 
   dibujar() {
@@ -36,24 +38,33 @@ class Juego {
     }
   }
 
-dibujarPantallaInicio() {
-  cursor();
-  image(imagenInicio, 0, 0, 1961 / 2, 1080 / 2);
-  push();
-  noFill();
-  noStroke();
-  ellipse(width / 2, height / 2 + 70, 170, 160);
-  pop();
-  let distancia = dist(mouseX, mouseY, width / 2, height / 2 + 70);
+  dibujarPantallaInicio() {
+    cursor();
+    image(imagenInicio, 0, 0, 1961 / 2, 1080 / 2);
+    push();
+    noFill();
+    noStroke();
+    ellipse(width / 2, height / 2 + 70, 170, 160);
+    pop();
+    let distancia = dist(mouseX, mouseY, width / 2, height / 2 + 70);
 
-  // Verifica si se puede cambiar de pantalla
-  if (mouseIsPressed && distancia < 160 && millis() - this.tiempoCambioPantalla > this.retrasoPantalla) {
-    this.estadoJuego = "transicion";
-    this.tiempoCambioPantalla = millis(); // Reinicia el temporizador
-    this.ronda = 1;
-    this.estadoContador = 0;
+    // Verifica si se puede cambiar de pantalla
+    if (mouseIsPressed && distancia < 160 && millis() - this.tiempoCambioPantalla > this.retrasoPantalla) {
+      this.estadoJuego = "transicion";
+      this.tiempoCambioPantalla = millis(); // Reinicia el temporizador
+      this.ronda = 1;
+      this.estadoContador = 0;
+
+      if (sonidoFondo.isPlaying()) {
+      }
+    }
+    if (this.estadoJuego === 'jugando' && !sonidoFondo.isPlaying()) {
+      sonidoFondo.loop();
+    }
+    if (this.estadoJuego=='jugando') {
+      sonidoTransicion.pause();
+    }
   }
-}
 
   dibujarPantallaJuego() {
     for (let persona of this.personas) {
@@ -65,12 +76,14 @@ dibujarPantallaInicio() {
     this.jugador.dibujar();
     this.dibujarContadorCircular();
     text(this.ronda, 50, 50);
+    sonidoTransicion.pause();
   }
 
   dibujarPantallaPerder() {
     push();
     image(imagenFondoPerder, 0, 0, 1961/2, 1080/2)
       pop();
+    sonidoFondo.pause();
   }
 
   dibujarPantallaGanar() {
@@ -78,6 +91,7 @@ dibujarPantallaInicio() {
     image(imagenFondoGanar, 0, 0, 1961/2, 1080/2)
 
       pop();
+    sonidoFondo.pause();
   }
 
   dibujarPantallaCreditos() {
@@ -93,7 +107,10 @@ dibujarPantallaInicio() {
 
   dibujarPantallaTransicion() {
     background(0, 150, 255, 10); // Fondo celeste
-
+    if (!sonidoTransicion.isPlaying()) {
+      sonidoTransicion.play();
+      sonidoTransicion.setVolume(0.5); // Ajusta el volumen
+    }
     // Dibuja y mueve las burbujas
     let todasFuera = true; // Bandera para verificar si todas están fuera de la pantalla
     for (let burbuja of this.burbujas) {
@@ -110,6 +127,7 @@ dibujarPantallaInicio() {
     // Si todas las burbujas están fuera de la pantalla, cambia el estado
     if (todasFuera) {
       this.estadoJuego = 'jugando'; // Cambia el estado a 'jugando'
+      sonidoFondo.loop();
     }
   }
 
@@ -167,19 +185,19 @@ dibujarPantallaInicio() {
     }
   }
 
-mousePressed() {
-  if (millis() - this.tiempoCambioPantalla > this.retrasoPantallaGanar) {
-    if (this.estadoJuego === 'perder' || this.estadoJuego === 'ganar') {
-      this.reiniciarJuego();
-    }
-    
-    if (this.estadoJuego === 'creditos') {
-      this.estadoJuego = 'inicio';
-    }
+  mousePressed() {
+    if (millis() - this.tiempoCambioPantalla > this.retrasoPantallaGanar) {
+      if (this.estadoJuego === 'perder' || this.estadoJuego === 'ganar') {
+        this.reiniciarJuego();
+      }
 
-    this.tiempoCambioPantalla = millis(); // Reinicia el temporizador
+      if (this.estadoJuego === 'creditos') {
+        this.estadoJuego = 'inicio';
+      }
+
+      this.tiempoCambioPantalla = millis(); // Reinicia el temporizador
+    }
   }
-}
 
   reiniciarJuego() {
     this.estadoJuego = 'inicio';
@@ -187,7 +205,9 @@ mousePressed() {
     this.estadoContador = 0;
     this.personas = [new Persona()];
     this.burbujas = []; // Limpia el array de burbujas
-
+    if (sonidoFondo.isPlaying()) {
+      sonidoFondo.pause();
+    }
     // Crea nuevas burbujas
     for (let i = 0; i < 40; i++) {
       this.burbujas.push(new Burbuja());
