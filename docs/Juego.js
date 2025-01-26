@@ -159,7 +159,7 @@ dibujarPantallaInicio() {
         this.estadoJuego = 'perder';
       }
 
-      if (this.ronda >= 15) { // Cambio ejemplo para que gane al alcanzar la ronda 5
+      if (this.ronda >= 12) { // Cambio ejemplo para que gane al alcanzar la ronda 5
         this.estadoJuego = 'ganar';
       }
     }
@@ -205,9 +205,9 @@ mousePressed() {
 
   dibujarContadorCircular() {
     if (this.estadoContador == 0) {
-      image(imagenCerebroContador[this.estadoContador], width / 2 - 50, 100, 70 * 1.3, 60 * 1.3);
+      image(imagenCerebroContador[this.estadoContador], width / 2 - 50, 25, 70 * 1.3, 60 * 1.3);
     } else {
-      image(imagenCerebroContador[this.estadoContador], width / 2 - 80, 85, 100 * 1.3, 100 * 1.3);
+      image(imagenCerebroContador[this.estadoContador], width / 2 - 80, 0, 100 * 1.3, 100 * 1.3);
     }
   }
 
