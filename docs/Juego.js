@@ -7,7 +7,7 @@ class Juego {
     this.tiempoMaximo = 600;
     this.tiempoMaximoRonda = 200;
     this.burbujas = [];
-    for (let i = 0; i < 40; i++) { // Crea 20 burbujas
+    for (let i = 0; i < 40; i++) { // Crea 40 burbujas
       this.burbujas.push(new Burbuja());
     }
     this.ronda = 1;
@@ -17,7 +17,10 @@ class Juego {
     this.tiempoCambioPantalla = 0; // Temporizador para controlar cambios de pantalla
     this.retrasoPantalla = 3000;  // Tiempo mínimo entre pantallas (en milisegundos)
     this.retrasoPantallaGanar = 5000;  // Tiempo mínimo entre pantallas (en milisegundos)
+    this.tiempoInicioJuego = 0;  // Tiempo al comenzar la ronda
+
     if (!sonidoFondo.isPlaying()) {
+      sonidoFondo.loop();
       sonidoFondo.setVolume(0.2); // Ajusta el volumen
     }
   }
@@ -48,20 +51,25 @@ class Juego {
     pop();
     let distancia = dist(mouseX, mouseY, width / 2, height / 2 + 70);
 
-    // Verifica si se puede cambiar de pantalla
     if (mouseIsPressed && distancia < 160 && millis() - this.tiempoCambioPantalla > this.retrasoPantalla) {
       this.estadoJuego = "transicion";
-      this.tiempoCambioPantalla = millis(); // Reinicia el temporizador
+      this.tiempoCambioPantalla = millis();
       this.ronda = 1;
       this.estadoContador = 0;
 
+      // Reinicia el tiempo de inicio solo cuando comience el juego
+      if (this.tiempoInicioJuego === 0) {
+        this.tiempoInicioJuego = millis(); // Inicia el temporizador solo cuando empieza el juego
+      }
+
       if (sonidoFondo.isPlaying()) {
+        sonidoFondo.stop();
       }
     }
     if (this.estadoJuego === 'jugando' && !sonidoFondo.isPlaying()) {
       sonidoFondo.loop();
     }
-    if (this.estadoJuego=='jugando') {
+    if (this.estadoJuego == 'jugando') {
       sonidoTransicion.pause();
     }
   }
@@ -71,11 +79,11 @@ class Juego {
       persona.dibujar();
     }
     noCursor();
+    this.dibujarContadorTiempo();
 
     this.enemigo.dibujar();
     this.jugador.dibujar();
     this.dibujarContadorCircular();
-    text(this.ronda, 50, 50);
     sonidoTransicion.pause();
   }
 
@@ -89,7 +97,6 @@ class Juego {
   dibujarPantallaGanar() {
     push();
     image(imagenFondoGanar, 0, 0, 1961/2, 1080/2)
-
       pop();
     sonidoFondo.pause();
   }
@@ -158,6 +165,11 @@ class Juego {
     if (this.estadoJuego === 'jugando') {
       this.enemigo.moverse();
 
+      // Si el tiempo de inicio está en cero, inicialízalo
+      if (this.tiempoInicioJuego === 0) {
+        this.tiempoInicioJuego = millis(); // Reinicia el tiempo si está en cero
+      }
+
       for (let persona of this.personas) {
         this.enemigo.atacar(persona);
         persona.moverse();
@@ -174,13 +186,15 @@ class Juego {
         this.nuevaRonda();
       }
 
-      // Verificar condiciones de victoria o derrota
-      if (this.estadoContador >= 4) {
-        this.estadoJuego = 'perder';
+      // Verificar si ya pasaron 20 segundos
+      if (millis() - this.tiempoInicioJuego >= 34000) { // 20 segundos
+        this.estadoJuego = 'ganar';
       }
 
-      if (this.ronda >= 12) { // Cambio ejemplo para que gane al alcanzar la ronda 5
-        this.estadoJuego = 'ganar';
+
+
+      if (this.estadoContador >= 4) {
+        this.estadoJuego = 'perder';
       }
     }
   }
@@ -204,15 +218,20 @@ class Juego {
     this.ronda = 1;
     this.estadoContador = 0;
     this.personas = [new Persona()];
-    this.burbujas = []; // Limpia el array de burbujas
+    this.burbujas = [];
     if (sonidoFondo.isPlaying()) {
       sonidoFondo.pause();
     }
+
     // Crea nuevas burbujas
     for (let i = 0; i < 40; i++) {
       this.burbujas.push(new Burbuja());
     }
+
+    // Reinicia el tiempo de inicio solo si el juego comienza
+    this.tiempoInicioJuego = 0; // Se resetea para iniciar de nuevo
   }
+
   nuevaRonda() {
     this.ronda++;
     this.tiempoRonda = frameCount;
@@ -242,5 +261,28 @@ class Juego {
 
   reiniciarContador() {
     this.estadoContador = 0;
+  }
+
+  dibujarContadorTiempo() {
+  image(imagenBurbujaCronometro, 40, 30, 150, 75);
+
+  if (this.estadoJuego === 'jugando') {
+    // Tiempo transcurrido
+    let tiempoTranscurrido = millis() - this.tiempoInicioJuego;
+    let tiempoRestante = 34000 - tiempoTranscurrido;
+
+    // Formatear el tiempo restante para que tenga siempre dos dígitos
+    let segundosRestantes = nf(round(tiempoRestante / 1000), 2, 0); // El 2 es el número de dígitos, y 0 es la cantidad de decimales
+
+    // Mostrar el tiempo restante en texto
+    textSize(24);
+    fill(0);
+    textAlign(CENTER, CENTER);
+    textSize(36);
+    text("0:" + segundosRestantes, 110, 60);
+    if (tiempoRestante <= 0) {
+      this.estadoJuego = 'ganar';
+    }
+  }
   }
 }
