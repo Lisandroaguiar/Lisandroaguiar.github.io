@@ -1,0 +1,28 @@
+TRAMA OSC — RECEPTOR PARA WINDOWS
+
+DESCARGA
+https://welding-boating-phillips-prozac.trycloudflare.com/TramaOSC-Receptor.exe
+
+PARA QUÉ SIRVE
+Recibe los paquetes de una sala Trama OSC y los entrega por UDP local al programa OSC de Mendoza.
+
+PRIMERA CONFIGURACIÓN
+1. Descarga el archivo del enlace de arriba y guárdalo en una carpeta permanente, por ejemplo C:\TramaOSC. No lo muevas después de activar el inicio automático.
+2. Haz doble clic para abrirlo.
+3. Pide a la persona de Buenos Aires el código y la clave de la sala. No los publiques.
+4. En “Servidor seguro”, deja la dirección actual que te comparta Buenos Aires. La dirección temporal actual es:
+   wss://welding-boating-phillips-prozac.trycloudflare.com
+5. Pega el código y la clave. Deja el destino en 127.0.0.1 y el puerto en 9001, salvo que el programa OSC receptor use otros valores.
+6. Activa “Conectar automáticamente al iniciar Windows” y pulsa “Conectar”. La aplicación guarda la clave cifrada para tu usuario de Windows.
+7. Configura el programa OSC receptor para escuchar UDP en 127.0.0.1:9001. La aplicación muestra “Conectado” cuando entra a la sala.
+
+USO DIARIO
+- Si activaste el inicio automático, al iniciar sesión en Windows la aplicación se abrirá y reconectará con la última sala guardada.
+- Mantén la aplicación abierta para recibir paquetes. Puedes minimizarla; al cerrarla se interrumpe la recepción.
+- Cuando Buenos Aires cree una sala nueva o la anterior venza (24 horas), pulsa “Desconectar”, cambia el código y la clave y vuelve a pulsar “Conectar”.
+- Si cambia la dirección temporal del servidor, actualiza “Servidor seguro” con la nueva dirección.
+
+LIMITACIONES
+- Aplicación para Windows de 64 bits.
+- El programa OSC receptor debe aceptar UDP en el host y puerto configurados.
+- No envía mensajes OSC de vuelta a Buenos Aires.

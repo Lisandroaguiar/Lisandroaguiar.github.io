@@ -1,0 +1,25 @@
+TRAMA OSC — PUBLICAR EN GITHUB PAGES
+
+CONTENIDO
+Esta carpeta incluye la web instalable, sus iconos, el puente Node.js y las aplicaciones emisora y receptora para Windows.
+
+PUBLICAR
+1. Copia el contenido completo de esta carpeta a la carpeta /docs de tu repositorio GitHub.
+2. En GitHub abre Settings > Pages.
+3. Elige Deploy from a branch, selecciona la rama principal y la carpeta /docs. Guarda.
+4. GitHub mostrará la dirección de la página, normalmente https://USUARIO.github.io/REPOSITORIO/.
+5. Abre esa dirección en Edge o Chrome y elige “Instalar app” en el encabezado o en el menú del navegador.
+
+EL RELAY SIGUE EN UN SERVIDOR APARTE
+GitHub Pages sirve archivos estáticos: no ejecuta server.js ni retransmite WebSocket. El relay Node.js debe seguir activo en la PC/servidor de Buenos Aires o en un VPS. El campo relayUrl de config.js debe apuntar a la dirección HTTPS pública de ese relay.
+
+HABILITAR LA PÁGINA DE GITHUB EN EL RELAY
+Como la página y el relay tienen dominios distintos, hay que permitir el origen exacto de GitHub Pages en el servidor. La parte “origen” no incluye la ruta /REPOSITORIO. Por ejemplo, para https://miusuario.github.io/mi-repo/ el origen es https://miusuario.github.io.
+
+Antes de iniciar server.js, configura esta variable con el origen real:
+  $env:TRAMA_ALLOWED_ORIGINS = "https://USUARIO.github.io"
+
+Después inicia el relay. Si el servidor ya estaba corriendo, hay que reiniciarlo con la variable configurada. Esto desconecta los puentes y borra las salas en memoria; crea una nueva al terminar.
+
+URL TEMPORAL ACTUAL
+config.js apunta al túnel temporal de pruebas. Si el túnel se reinicia y cambia su URL, actualiza relayUrl en config.js y vuelve a subir el contenido de docs. Para una URL estable del relay hace falta un túnel permanente asociado a una cuenta/dominio o un VPS. Un dominio GitHub Pages por sí solo no aloja el relay.

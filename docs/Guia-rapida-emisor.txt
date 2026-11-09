@@ -1,0 +1,17 @@
+TRAMA OSC — EMISOR PARA WINDOWS
+
+PRIMERA CONFIGURACIÓN
+1. Descarga TramaOSC-Emisor.exe desde la página Trama OSC y guárdalo en una carpeta permanente, por ejemplo C:\TramaOSC.
+2. Haz doble clic para abrirlo.
+3. Pega la dirección del relay, el código de sala y la clave que muestra la página.
+4. Deja el puerto OSC local en 9000, salvo que quieras usar otro.
+5. Configura el programa OSC emisor para mandar UDP a 127.0.0.1 en el puerto indicado.
+6. Pulsa “Conectar”. El estado debe indicar “Conectado”.
+7. Si quieres que se conecte al iniciar sesión en Windows, activa la casilla antes de conectar.
+
+USO DIARIO
+- Si activaste el inicio automático, la aplicación se abrirá y conectará con la última sala al iniciar sesión.
+- Mantén la aplicación abierta para retransmitir. Puedes minimizarla; al cerrarla, deja de escuchar OSC.
+- Al cambiar de sala, pulsa “Desconectar”, pega el nuevo código y clave y vuelve a pulsar “Conectar”.
+- Si cambia la URL temporal del relay, actualiza el campo “Servidor seguro”.
+- No se guarda el contenido de OSC y no hay canal de regreso.
